@@ -7,6 +7,7 @@ import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 
+
 import java.io.IOException;
 
 public class Game {
@@ -16,6 +17,7 @@ public class Game {
     private int y = 10;
     private int width = 100;
     private int height = 100;
+
     public Game() {
         try {
             TerminalSize terminalSize = new TerminalSize(115, 115);
@@ -35,7 +37,7 @@ public class Game {
         private void draw (){
             try{
             screen.clear();
-            arena.draw(screen);
+            arena.draw(screen.newTextGraphics());
             screen.refresh();}
             catch (IOException e){
                 e.printStackTrace();
