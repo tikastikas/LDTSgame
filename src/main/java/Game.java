@@ -10,15 +10,19 @@ import com.googlecode.lanterna.input.KeyType;
 import java.io.IOException;
 
 public class Game {
+    private Arena arena;
     private Screen screen;
     private int x = 10;
     private int y = 10;
+    private int width = 100;
+    private int height = 100;
     public Game() {
         try {
-            TerminalSize terminalSize = new TerminalSize(40, 20);
+            TerminalSize terminalSize = new TerminalSize(115, 115);
             DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalSize);
             Terminal terminal = terminalFactory.createTerminal();
-
+            Hero hero=new Hero(x,y);
+            arena = new Arena(width,height,hero);
             this.screen = new TerminalScreen(terminal);
             screen.setCursorPosition(null); // we don't need a cursor
             screen.startScreen(); // screens must be started
@@ -31,7 +35,7 @@ public class Game {
         private void draw (){
             try{
             screen.clear();
-            screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
+            arena.draw(screen);
             screen.refresh();}
             catch (IOException e){
                 e.printStackTrace();
@@ -39,42 +43,43 @@ public class Game {
         }
     public void run(){
         try{
-            while(true){draw();
+            while(true){
+                draw();
                 KeyStroke key = screen.readInput();
                 processKey(key);}}
         catch (IOException e){
             e.printStackTrace();
         }
     }
-    private void processKey(KeyStroke key) {
+    public void processKey(KeyStroke key) {
         System.out.println(key);
         switch (key.getKeyType()) {
             case ArrowUp:
-                y--; // Move up
+                arena.moveHero(arena.getHero().moveUp());
                 break;
             case ArrowDown:
-                y++; // Move down
+                arena.moveHero(arena.getHero().moveDown());
                 break;
             case ArrowLeft:
-                x--; // Move left
+                arena.moveHero(arena.getHero().moveLeft());
                 break;
             case ArrowRight:
-                x++; // Move right
+                arena.moveHero(arena.getHero().moveRight());
                 break;
             case Character:
                 if (key.getCharacter() == 'q') {
-                    closeScreen(); // Close if 'q' is pressed
+                    closeScreen();
                     return;
                 }
                 break;
             case EOF:
-                closeScreen(); // Close on EOF
+                closeScreen();
                 return;
             default:
                 break;
         }
     }
-    private void closeScreen() {
+    public void closeScreen() {
         try {
             screen.stopScreen(); // Stop the screen
         } catch (IOException e) {
