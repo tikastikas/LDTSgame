@@ -26,4 +26,7 @@ public class Hero extends Element {
     public Position moveRight() {
         return new Position(position.getX() + 1, position.getY());
     }
+    public Position knockback(){
+        return new Position(position.getX()-1, position.getY());
+    }
 }

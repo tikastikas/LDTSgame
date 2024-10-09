@@ -18,4 +18,7 @@ public class Position {
     public void setX(int x) {
         this.x = x;
     }
+    public boolean equals(Position position) {
+        return x == position.getX() && y == position.getY();
+    }
 }

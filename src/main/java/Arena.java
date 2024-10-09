@@ -14,6 +14,8 @@ public class Arena {
     private List<Monster> Monsters;
     private int width;
     private int height;
+    private int coinCount=0;
+    private int herolives=3;
     private Hero hero;
     public Arena(int width, int height,Hero hero) {
         this.width = width;
@@ -63,6 +65,11 @@ public class Arena {
     public void draw(TextGraphics graphics) {
         graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
         graphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width, height), ' ');
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
+        graphics.putString(new TerminalPosition(40, 1),"Coins:"+coinCount);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
+        graphics.putString(new TerminalPosition(50, 1),"Lives:"+herolives);
+
         for (Wall wall : walls) {
             wall.draw(graphics);
         }
@@ -73,20 +80,21 @@ public class Arena {
         for(Monster monster : Monsters) {
             monster.draw(graphics);
         }
+
     }
-    public boolean canHeroMove(Position position) {
+    public boolean canElementMove(Position position) {
         if (position.getX() < 0 || position.getX() >= width || position.getY() < 0 || position.getY() >= height) {
             return false;
         }
         for (Wall wall : walls) { //equals nao funcionava perguntar ao stor
-            if(wall.getPosition().getX() == position.getX() && wall.getPosition().getY() == position.getY()) {
+            if(wall.getPosition().equals(position)) {
                 return false;
             }
         }
         return true;
     }
     public void moveHero(Position position) {
-        if (canHeroMove(position)) {
+        if (canElementMove(position)) {
             hero.setPosition(position);
             retriveCoins();
             moveMonsters();
@@ -95,21 +103,35 @@ public class Arena {
             System.out.println("Can't move hero");
         }
     }
-    public void retriveCoins(){//perguntar se ist ta bem
-        Coins.removeIf(coin -> hero.getPosition().getX() == coin.getPosition().getX() && hero.getPosition().getY() == coin.getPosition().getY());
+    public void retriveCoins(){
+        for (Coin coin : Coins) {
+            if(hero.getPosition().equals(coin.getPosition())){
+                coinCount++;
+            }
+        }
+
+        Coins.removeIf(coin -> hero.getPosition().equals(coin.getPosition()));
     }
     public void moveMonsters() {
         for (Monster monster : Monsters) {
             Position position = monster.move();
-            monster.setPosition(position);
+            if(canElementMove(position)) {
+                monster.setPosition(position);
+            }
         }
 
     }
     public void verifyMonsterCollision() {
         for (Monster monster : Monsters) {
-            if(hero.getPosition().getX() == monster.getPosition().getX() && hero.getPosition().getY() == monster.getPosition().getY()){
-                System.out.println("you died dingus.");
-                System.exit(0);
+            if(hero.getPosition().equals(monster.getPosition())) {
+                System.out.println("Ouch!you took damage");
+                herolives--;
+                hero.setPosition(hero.knockback());
+                if(herolives == 0) {
+                    System.out.println("YOU DIED");
+                    System.exit(0);
+
+                }
             }
         }
     }
