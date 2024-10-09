@@ -40,14 +40,14 @@ public class Arena {
     private List<Coin> createCoins() {
         Random random = new Random();
         for (int i = 0; i < 5; i++) {
-            Coins.add(new Coin(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1));
+            Coins.add(new Coin(random.nextInt(width - 2) , random.nextInt(height - 2) ));
         }
         return Coins;
     }
     private List<Monster> createMonsters() {
         Random random = new Random();
         for (int i = 0; i < 5; i++) {
-            Monsters.add(new Monster(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1));
+            Monsters.add(new Monster(random.nextInt(width - 2), random.nextInt(height - 2)));
         }
         return Monsters;
     }
@@ -86,7 +86,7 @@ public class Arena {
         if (position.getX() < 0 || position.getX() >= width || position.getY() < 0 || position.getY() >= height) {
             return false;
         }
-        for (Wall wall : walls) { //equals nao funcionava perguntar ao stor
+        for (Wall wall : walls) {
             if(wall.getPosition().equals(position)) {
                 return false;
             }
