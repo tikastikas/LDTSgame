@@ -1,8 +1,8 @@
-import com.googlecode.lanterna.SGR;
+package game.elements;
+
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.gui2.Direction;
 
 
 public class Wall extends Element {

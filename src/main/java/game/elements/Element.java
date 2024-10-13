@@ -1,6 +1,7 @@
-import com.googlecode.lanterna.graphics.TextGraphics;
+package game.elements;
 
-import java.awt.*;
+import com.googlecode.lanterna.graphics.TextGraphics;
+import game.utils.Position;
 
 public abstract class Element {
     protected Position position;

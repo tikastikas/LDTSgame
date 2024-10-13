@@ -1,8 +1,11 @@
+package game.arena;
+
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.screen.Screen;
+import game.elements.*;
+import game.utils.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +20,7 @@ public class Arena {
     private int coinCount=0;
     private int herolives=3;
     private Hero hero;
-    public Arena(int width, int height,Hero hero) {
+    public Arena(int width, int height, Hero hero) {
         this.width = width;
         this.height = height;
         this.hero = hero;
