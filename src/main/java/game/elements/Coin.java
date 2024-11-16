@@ -12,4 +12,6 @@ public class Coin extends Element  {
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
         graphics.putString(new TerminalPosition(position.getX(), position.getY()), "0");  // Draw hero as '@'
     }
+
 }
+

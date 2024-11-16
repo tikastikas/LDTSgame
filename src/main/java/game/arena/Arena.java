@@ -105,6 +105,10 @@ public class Arena {
         } else {
             System.out.println("Can't move hero");
         }
+        for (Coin coin : Coins) {
+            Position coinPosition = coin.getPosition();
+            if (canElementMove(coinPosition)) coin.setPosition(new Position(coinPosition.getX(), coinPosition.getY() + 1));
+        }
     }
     public void retriveCoins(){
         for (Coin coin : Coins) {
